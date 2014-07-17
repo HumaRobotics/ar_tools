@@ -102,7 +102,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(include '/usr/local/include/'  )
-include_directories('/home/sbock/ros-hydro/src/ar_tools/artoolkit/include/')
+
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
@@ -112,6 +112,8 @@ include_directories(
 # add_library(ar_pose	
 #   src/${PROJECT_NAME}/ar_pose.cpp
 # )
+
+LINK_DIRECTORIES(${CATKIN_DEVEL_PREFIX}/lib/artoolkit)
 
 ## Declare a cpp executable
 set(ARPOSESINGLE       ar_single)
