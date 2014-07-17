@@ -1,23 +1,14 @@
+
 cmake_minimum_required(VERSION 2.8.3)
-project(ar_pose)
+project(artoolkit)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
-  geometry_msgs
-  image_transport
-  resource_retriever
-  tf
-  visualization_msgs
-  message_generation
-  message_runtime
-  
-)
+find_package(catkin REQUIRED)
 
-find_package(OpenCV REQUIRED)
 
+#execute_process(COMMAND ${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/make)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -52,11 +43,11 @@ find_package(OpenCV REQUIRED)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-   ARMarker.msg
-   ARMarkers.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -73,11 +64,10 @@ find_package(OpenCV REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   geometry_msgs
-   std_msgs
- )
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -89,9 +79,9 @@ find_package(OpenCV REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ar_pose
-  CATKIN_DEPENDS cv_bridge geometry_msgs image_transport resource_retriever tf visualization_msgs
+  INCLUDE_DIRS include
+  LIBRARIES artoolkit
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -101,46 +91,24 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include /usr/local/include/  )
-include_directories(${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/include)
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-)
+include_directories(include)
 
 ## Declare a cpp library
-# add_library(ar_pose	
-#   src/${PROJECT_NAME}/ar_pose.cpp
+# add_library(artoolkit
+#   src/${PROJECT_NAME}/artoolkit.cpp
 # )
 
-
-LINK_DIRECTORIES(${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/lib)
-
 ## Declare a cpp executable
-set(ARPOSESINGLE       ar_single)
-set(ARPOSESINGLE_SRC   src/ar_single.cpp)
-set(ARPOSESINGLE_LIBS  GLU GL glut ARgsub AR ARMulti ARvideo)
+# add_executable(artoolkit_node src/artoolkit_node.cpp)
 
-set(ARPOSEMULTI       ar_multi)
-set(ARPOSEMULTI_SRC   src/ar_multi.cpp src/object.cpp)
-set(ARPOSEMULTI_LIBS  GLU GL glut ARgsub AR ARMulti ARvideo)
-
-add_executable(${ARPOSESINGLE}  ${ARPOSESINGLE_SRC})
-add_executable(${ARPOSEMULTI}  ${ARPOSEMULTI_SRC})
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(${ARPOSESINGLE} artoolkit )
-add_dependencies(${ARPOSEMULTI} artoolkit )
+# add_dependencies(artoolkit_node artoolkit_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(${ARPOSESINGLE}
-   ${catkin_LIBRARIES}
-   ${ARPOSESINGLE_LIBS}
- )
-  target_link_libraries(${ARPOSEMULTI}  
-   ${catkin_LIBRARIES}
-   ${ARPOSEMULTI_LIBS}
-)
+# target_link_libraries(artoolkit_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -157,7 +125,7 @@ add_dependencies(${ARPOSEMULTI} artoolkit )
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS ar_pose ar_pose_node
+# install(TARGETS artoolkit artoolkit_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -182,7 +150,7 @@ add_dependencies(${ARPOSEMULTI} artoolkit )
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ar_pose.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_artoolkit.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

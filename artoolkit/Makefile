@@ -1,3 +1,4 @@
+
 all: installed
 
 TARBALL     = build/ARToolKit-SVN-r311.tar.gz
