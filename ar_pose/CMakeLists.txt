@@ -12,11 +12,14 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   visualization_msgs
   message_generation
-  message_runtime
   
 )
 
 find_package(OpenCV REQUIRED)
+find_package(GLUT)
+find_package(OpenGL)
+
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -91,7 +94,7 @@ find_package(OpenCV REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ar_pose
-  CATKIN_DEPENDS cv_bridge geometry_msgs image_transport resource_retriever tf visualization_msgs
+  CATKIN_DEPENDS cv_bridge geometry_msgs image_transport resource_retriever tf visualization_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -101,8 +104,9 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include /usr/local/include/  )
+include_directories(include /usr/local/include  )
 include_directories(${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/include)
+include_directories(${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
@@ -113,9 +117,9 @@ include_directories(
 #   src/${PROJECT_NAME}/ar_pose.cpp
 # )
 
-
 LINK_DIRECTORIES(${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/lib)
-
+LINK_DIRECTORIES(${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+#link_directories(/usr/local/lib)
 ## Declare a cpp executable
 set(ARPOSESINGLE       ar_single)
 set(ARPOSESINGLE_SRC   src/ar_single.cpp)
@@ -129,17 +133,21 @@ add_executable(${ARPOSESINGLE}  ${ARPOSESINGLE_SRC})
 add_executable(${ARPOSEMULTI}  ${ARPOSEMULTI_SRC})
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(${ARPOSESINGLE} artoolkit )
-add_dependencies(${ARPOSEMULTI} artoolkit )
+add_dependencies(${ARPOSESINGLE} artoolkit ar_pose_gencpp)
+add_dependencies(${ARPOSEMULTI} artoolkit ar_pose_gencpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(${ARPOSESINGLE}
    ${catkin_LIBRARIES}
    ${ARPOSESINGLE_LIBS}
+   ${OPENGL_LIBRARIES}
+   ${GLUT_LIBRARIES}
  )
   target_link_libraries(${ARPOSEMULTI}  
    ${catkin_LIBRARIES}
    ${ARPOSEMULTI_LIBS}
+   ${OPENGL_LIBRARIES}
+   ${GLUT_LIBRARIES}
 )
 
 #############
