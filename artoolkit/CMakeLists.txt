@@ -16,8 +16,7 @@ catkin_package(
 )
 
 
-message(!!!!!executing makefile)
+message(Making artoolkit)
 execute_process(COMMAND make all	 
 				WORKING_DIRECTORY ${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/)
-#execute_process(COMMAND ${CATKIN_DEVEL_PREFIX}/../src/ar_tools/artoolkit/make -f Makefile)
-message(!!!!!done)
+message(Done making artoolkit)
